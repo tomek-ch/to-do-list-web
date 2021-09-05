@@ -1,0 +1,7 @@
+query ToDos {
+  ToDos {
+    id
+    task
+    done
+  }
+}
