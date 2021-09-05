@@ -23,7 +23,7 @@ function NewToDoForm() {
           placeholder="New task"
           fullWidth
         />
-        <IconButton type="submit">
+        <IconButton type="submit" disabled={!task}>
           <AddIcon />
         </IconButton>
       </Box>
