@@ -10,24 +10,26 @@ function NewToDoForm() {
   const [task, setTask] = useState("");
 
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        createToDo({ task });
-      }}
-    >
-      <Box display="flex">
-        <TextField
-          value={task}
-          onChange={(e) => setTask(e.target.value)}
-          placeholder="New task"
-          fullWidth
-        />
-        <IconButton type="submit" disabled={!task}>
-          <AddIcon />
-        </IconButton>
-      </Box>
-    </form>
+    <Box p={2}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          createToDo({ task });
+        }}
+      >
+        <Box display="flex">
+          <TextField
+            value={task}
+            onChange={(e) => setTask(e.target.value)}
+            placeholder="New task"
+            fullWidth
+          />
+          <IconButton type="submit" disabled={!task}>
+            <AddIcon />
+          </IconButton>
+        </Box>
+      </form>
+    </Box>
   );
 }
 
