@@ -1,0 +1,7 @@
+mutation updateDone($id: Int!, $done: Boolean!) {
+  updateDone(id: $id, done: $done) {
+    id
+    task
+    done
+  }
+}

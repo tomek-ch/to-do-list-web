@@ -17,7 +17,7 @@ export type Scalars = {
 export type Mutation = {
   __typename?: 'Mutation';
   createToDo?: Maybe<ToDo>;
-  updateDone: Scalars['Boolean'];
+  updateDone: ToDo;
 };
 
 
@@ -28,7 +28,7 @@ export type MutationCreateToDoArgs = {
 
 export type MutationUpdateDoneArgs = {
   done: Scalars['Boolean'];
-  id: Scalars['Float'];
+  id: Scalars['Int'];
 };
 
 export type Query = {
@@ -38,7 +38,7 @@ export type Query = {
 
 export type ToDo = {
   __typename?: 'ToDo';
-  id: Scalars['Float'];
+  id: Scalars['Int'];
   task: Scalars['String'];
   done: Scalars['Boolean'];
 };
@@ -49,6 +49,14 @@ export type CreateToDoMutationVariables = Exact<{
 
 
 export type CreateToDoMutation = { __typename?: 'Mutation', createToDo?: Maybe<{ __typename?: 'ToDo', id: number, task: string, done: boolean }> };
+
+export type UpdateDoneMutationVariables = Exact<{
+  id: Scalars['Int'];
+  done: Scalars['Boolean'];
+}>;
+
+
+export type UpdateDoneMutation = { __typename?: 'Mutation', updateDone: { __typename?: 'ToDo', id: number, task: string, done: boolean } };
 
 export type ToDosQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -68,6 +76,19 @@ export const CreateToDoDocument = gql`
 
 export function useCreateToDoMutation() {
   return Urql.useMutation<CreateToDoMutation, CreateToDoMutationVariables>(CreateToDoDocument);
+};
+export const UpdateDoneDocument = gql`
+    mutation updateDone($id: Int!, $done: Boolean!) {
+  updateDone(id: $id, done: $done) {
+    id
+    task
+    done
+  }
+}
+    `;
+
+export function useUpdateDoneMutation() {
+  return Urql.useMutation<UpdateDoneMutation, UpdateDoneMutationVariables>(UpdateDoneDocument);
 };
 export const ToDosDocument = gql`
     query ToDos {
