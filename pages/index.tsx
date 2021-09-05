@@ -4,9 +4,15 @@ import { withUrqlClient } from "next-urql";
 import { useToDosQuery } from "../generated/graphql";
 import ToDoItem from "../components/ToDoItem";
 import NewToDoForm from "../components/NewToDoForm";
+import { useEffect } from "react";
 
 const Home: NextPage = () => {
   const [{ data }] = useToDosQuery();
+
+  useEffect(() => {
+    console.log(data?.ToDos);
+  }, [data]);
+
   return (
     <>
       <NewToDoForm />
