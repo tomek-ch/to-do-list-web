@@ -18,6 +18,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   createToDo?: Maybe<ToDo>;
   updateDone: ToDo;
+  deleteToDo: Scalars['Int'];
 };
 
 
@@ -28,6 +29,11 @@ export type MutationCreateToDoArgs = {
 
 export type MutationUpdateDoneArgs = {
   done: Scalars['Boolean'];
+  id: Scalars['Int'];
+};
+
+
+export type MutationDeleteToDoArgs = {
   id: Scalars['Int'];
 };
 
@@ -49,6 +55,13 @@ export type CreateToDoMutationVariables = Exact<{
 
 
 export type CreateToDoMutation = { __typename?: 'Mutation', createToDo?: Maybe<{ __typename?: 'ToDo', id: number, task: string, done: boolean }> };
+
+export type DeleteToDoMutationMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteToDoMutationMutation = { __typename?: 'Mutation', deleteToDo: number };
 
 export type UpdateDoneMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -76,6 +89,15 @@ export const CreateToDoDocument = gql`
 
 export function useCreateToDoMutation() {
   return Urql.useMutation<CreateToDoMutation, CreateToDoMutationVariables>(CreateToDoDocument);
+};
+export const DeleteToDoMutationDocument = gql`
+    mutation DeleteToDoMutation($id: Int!) {
+  deleteToDo(id: $id)
+}
+    `;
+
+export function useDeleteToDoMutationMutation() {
+  return Urql.useMutation<DeleteToDoMutationMutation, DeleteToDoMutationMutationVariables>(DeleteToDoMutationDocument);
 };
 export const UpdateDoneDocument = gql`
     mutation updateDone($id: Int!, $done: Boolean!) {

@@ -1,0 +1,3 @@
+mutation DeleteToDoMutation($id: Int!) {
+  deleteToDo(id: $id)
+}
