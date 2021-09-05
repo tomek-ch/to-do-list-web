@@ -16,5 +16,5 @@ const Home: NextPage = () => {
 };
 
 export default withUrqlClient(() => ({
-  url: "http://localhost:4000/graphql",
+  url: process.env.NEXT_PUBLIC_SERVER_URL as string,
 }))(Home);
