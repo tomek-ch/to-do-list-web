@@ -3,6 +3,9 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import Checkbox from "@material-ui/core/Checkbox";
 import { ToDo, useUpdateDoneMutation } from "../generated/graphql";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import DeleteIcon from "@material-ui/icons/Delete";
+import IconButton from "@material-ui/core/IconButton";
 
 interface Props {
   todo: ToDo;
@@ -23,6 +26,11 @@ function ToDoItem({ todo: { id, task, done } }: Props) {
         }
         label={<ListItemText primary={task} />}
       />
+      <ListItemSecondaryAction>
+        <IconButton>
+          <DeleteIcon />
+        </IconButton>
+      </ListItemSecondaryAction>
     </ListItem>
   );
 }
