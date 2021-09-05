@@ -1,6 +1,9 @@
-import { Button, TextField } from "@material-ui/core";
 import { useState } from "react";
 import { useCreateToDoMutation } from "../generated/graphql";
+import IconButton from "@material-ui/core/IconButton";
+import AddIcon from "@material-ui/icons/Add";
+import TextField from "@material-ui/core/Input";
+import Box from "@material-ui/core/Box";
 
 function NewToDoForm() {
   const [, createToDo] = useCreateToDoMutation();
@@ -13,12 +16,17 @@ function NewToDoForm() {
         createToDo({ task });
       }}
     >
-      <TextField
-        value={task}
-        onChange={(e) => setTask(e.target.value)}
-        placeholder="New task"
-      />
-      <Button type="submit">Add</Button>
+      <Box display="flex">
+        <TextField
+          value={task}
+          onChange={(e) => setTask(e.target.value)}
+          placeholder="New task"
+          fullWidth
+        />
+        <IconButton type="submit">
+          <AddIcon />
+        </IconButton>
+      </Box>
     </form>
   );
 }
