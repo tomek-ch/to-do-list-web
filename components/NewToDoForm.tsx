@@ -15,6 +15,7 @@ function NewToDoForm() {
         onSubmit={(e) => {
           e.preventDefault();
           createToDo({ task });
+          setTask("");
         }}
       >
         <Box display="flex">
