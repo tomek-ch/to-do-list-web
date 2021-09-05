@@ -16,7 +16,7 @@ export type Scalars = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createToDo: ToDo;
+  createToDo?: Maybe<ToDo>;
   updateDone: Scalars['Boolean'];
 };
 
@@ -48,7 +48,7 @@ export type CreateToDoMutationVariables = Exact<{
 }>;
 
 
-export type CreateToDoMutation = { __typename?: 'Mutation', createToDo: { __typename?: 'ToDo', id: number, task: string, done: boolean } };
+export type CreateToDoMutation = { __typename?: 'Mutation', createToDo?: Maybe<{ __typename?: 'ToDo', id: number, task: string, done: boolean }> };
 
 export type ToDosQueryVariables = Exact<{ [key: string]: never; }>;
 
