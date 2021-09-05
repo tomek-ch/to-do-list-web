@@ -3,15 +3,19 @@ import type { NextPage } from "next";
 import { withUrqlClient } from "next-urql";
 import { useToDosQuery } from "../generated/graphql";
 import ToDoItem from "../components/ToDoItem";
+import NewToDoForm from "../components/NewToDoForm";
 
 const Home: NextPage = () => {
   const [{ data }] = useToDosQuery();
   return (
-    <List>
-      {data?.ToDos.map((todo) => (
-        <ToDoItem key={todo.id} todo={todo} />
-      ))}
-    </List>
+    <>
+      <NewToDoForm />
+      <List>
+        {data?.ToDos.map((todo) => (
+          <ToDoItem key={todo.id} todo={todo} />
+        ))}
+      </List>
+    </>
   );
 };
 

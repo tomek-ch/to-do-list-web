@@ -43,12 +43,32 @@ export type ToDo = {
   done: Scalars['Boolean'];
 };
 
+export type CreateToDoMutationVariables = Exact<{
+  task: Scalars['String'];
+}>;
+
+
+export type CreateToDoMutation = { __typename?: 'Mutation', createToDo: { __typename?: 'ToDo', id: number, task: string, done: boolean } };
+
 export type ToDosQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type ToDosQuery = { __typename?: 'Query', ToDos: Array<{ __typename?: 'ToDo', id: number, task: string, done: boolean }> };
 
 
+export const CreateToDoDocument = gql`
+    mutation CreateToDo($task: String!) {
+  createToDo(task: $task) {
+    id
+    task
+    done
+  }
+}
+    `;
+
+export function useCreateToDoMutation() {
+  return Urql.useMutation<CreateToDoMutation, CreateToDoMutationVariables>(CreateToDoDocument);
+};
 export const ToDosDocument = gql`
     query ToDos {
   ToDos {
