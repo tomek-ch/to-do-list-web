@@ -1,7 +1,11 @@
 import { cacheExchange } from "@urql/exchange-graphcache";
 import { dedupExchange, fetchExchange } from "@urql/core";
 import { SSRExchange } from "next-urql";
-import { ToDosDocument, ToDosQuery } from "../generated/graphql";
+import { ToDo, ToDosDocument, ToDosQuery } from "../generated/graphql";
+
+function sortByDone(a: ToDo, b: ToDo) {
+  return Number(b.done) - Number(a.done);
+}
 
 function createUrqlClient(ssrExchange: SSRExchange) {
   return {
@@ -11,6 +15,18 @@ function createUrqlClient(ssrExchange: SSRExchange) {
       cacheExchange({
         updates: {
           Mutation: {
+            createToDo(result: { createToDo: ToDo }, _args, cache, _info) {
+              cache.updateQuery<ToDosQuery>(
+                {
+                  query: ToDosDocument,
+                },
+                (data) => {
+                  data?.ToDos.push(result.createToDo);
+                  data?.ToDos.sort(sortByDone);
+                  return data;
+                }
+              );
+            },
             deleteToDo(_result, args, cache, _info) {
               cache.updateQuery<ToDosQuery>(
                 {
@@ -33,7 +49,7 @@ function createUrqlClient(ssrExchange: SSRExchange) {
                 },
                 (data) => {
                   if (data) {
-                    data.ToDos.sort((a, b) => Number(b.done) - Number(a.done));
+                    data.ToDos.sort(sortByDone);
                   }
                   return data;
                 }
