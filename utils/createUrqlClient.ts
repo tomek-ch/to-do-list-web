@@ -1,6 +1,25 @@
-import { cacheExchange } from "@urql/exchange-graphcache";
+import {
+  cacheExchange,
+  DataFields,
+  ResolveInfo,
+  Variables,
+  Cache,
+} from "@urql/exchange-graphcache";
 import { dedupExchange, fetchExchange } from "@urql/core";
 import { SSRExchange } from "next-urql";
+
+function invalidate(
+  _result: DataFields,
+  args: Variables,
+  cache: Cache,
+  _info: ResolveInfo
+) {
+  const allFields = cache.inspectFields("Query");
+  const fieldInfos = allFields.filter((info) => info.fieldName === "ToDos");
+  fieldInfos.forEach((fi) => {
+    cache.invalidate("Query", "ToDos", fi.arguments);
+  });
+}
 
 function createUrqlClient(ssrExchange: SSRExchange) {
   return {
@@ -10,24 +29,10 @@ function createUrqlClient(ssrExchange: SSRExchange) {
       cacheExchange({
         updates: {
           Mutation: {
-            deleteToDo: (_result, args, cache, _info) => {
-              const allFields = cache.inspectFields("Query");
-              const fieldInfos = allFields.filter(
-                (info) => info.fieldName === "ToDos"
-              );
-              fieldInfos.forEach((fi) => {
-                cache.invalidate("Query", "ToDos", fi.arguments);
-              });
-            },
-            createToDo: (_result, args, cache, _info) => {
-              const allFields = cache.inspectFields("Query");
-              const fieldInfos = allFields.filter(
-                (info) => info.fieldName === "ToDos"
-              );
-              fieldInfos.forEach((fi) => {
-                cache.invalidate("Query", "ToDos", fi.arguments);
-              });
-            },
+            // to do: manually update the cache
+            deleteToDo: invalidate,
+            createToDo: invalidate,
+            updateDone: invalidate,
           },
         },
       }),
