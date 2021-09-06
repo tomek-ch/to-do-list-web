@@ -45,7 +45,6 @@ function createUrqlClient(ssrExchange: SSRExchange) {
                 }
               );
             },
-            createToDo: invalidate,
             updateDone: invalidate,
           },
         },
