@@ -11,7 +11,7 @@ const Home: NextPage = () => {
   const [{ data }] = useToDosQuery();
 
   useEffect(() => {
-    console.log(data?.ToDos);
+    console.log(data?.ToDos.filter(({ done }) => done));
   }, [data]);
 
   return (
