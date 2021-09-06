@@ -23,6 +23,7 @@ class MyDocument extends Document {
   }
 }
 
+// Prevent material ui warning
 MyDocument.getInitialProps = async (ctx) => {
   const sheets = new ServerStyleSheets();
   const originalRenderPage = ctx.renderPage;
