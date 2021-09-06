@@ -5,6 +5,7 @@ import { useToDosQuery } from "../generated/graphql";
 import ToDoItem from "../components/ToDoItem";
 import NewToDoForm from "../components/NewToDoForm";
 import { useEffect } from "react";
+import createUrqlClient from "../utils/createUrqlClient";
 
 const Home: NextPage = () => {
   const [{ data }] = useToDosQuery();
@@ -25,6 +26,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default withUrqlClient(() => ({
-  url: process.env.NEXT_PUBLIC_SERVER_URL as string,
-}))(Home);
+export default withUrqlClient(createUrqlClient, { ssr: true })(Home);
