@@ -7,6 +7,7 @@ import {
 } from "@urql/exchange-graphcache";
 import { dedupExchange, fetchExchange } from "@urql/core";
 import { SSRExchange } from "next-urql";
+import { ToDosDocument, ToDosQuery } from "../generated/graphql";
 
 function invalidate(
   _result: DataFields,
@@ -29,8 +30,21 @@ function createUrqlClient(ssrExchange: SSRExchange) {
       cacheExchange({
         updates: {
           Mutation: {
-            // to do: manually update the cache
-            deleteToDo: invalidate,
+            deleteToDo(_result, args, cache, _info) {
+              cache.updateQuery<ToDosQuery>(
+                {
+                  query: ToDosDocument,
+                },
+                (data) => {
+                  if (data) {
+                    data.ToDos = data?.ToDos.filter?.(
+                      (todo) => todo.id !== args.id
+                    );
+                  }
+                  return data;
+                }
+              );
+            },
             createToDo: invalidate,
             updateDone: invalidate,
           },
