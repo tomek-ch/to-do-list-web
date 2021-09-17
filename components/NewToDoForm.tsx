@@ -8,14 +8,22 @@ import Box from "@material-ui/core/Box";
 function NewToDoForm() {
   const [, createToDo] = useCreateToDoMutation();
   const [task, setTask] = useState("");
+  const [error, setError] = useState("");
 
   return (
     <Box p={2}>
       <form
-        onSubmit={(e) => {
+        onSubmit={async (e) => {
           e.preventDefault();
-          createToDo({ task });
-          setTask("");
+          const { error } = await createToDo({ task });
+
+          if (error) {
+            console.log(error);
+            setError("Server error");
+          } else {
+            setTask("");
+            setError("");
+          }
         }}
       >
         <Box display="flex">
@@ -30,6 +38,7 @@ function NewToDoForm() {
           </IconButton>
         </Box>
       </form>
+      <div>{error}</div>
     </Box>
   );
 }
