@@ -4,6 +4,7 @@ import IconButton from "@material-ui/core/IconButton";
 import AddIcon from "@material-ui/icons/Add";
 import TextField from "@material-ui/core/Input";
 import Box from "@material-ui/core/Box";
+import Alert from "@material-ui/lab/Alert";
 
 function NewToDoForm() {
   const [, createToDo] = useCreateToDoMutation();
@@ -38,7 +39,11 @@ function NewToDoForm() {
           </IconButton>
         </Box>
       </form>
-      <div>{error}</div>
+      {error && (
+        <Box mt={2}>
+          <Alert severity="error">Server error</Alert>
+        </Box>
+      )}
     </Box>
   );
 }

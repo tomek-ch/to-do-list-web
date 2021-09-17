@@ -6,6 +6,7 @@ import ToDoItem from "../components/ToDoItem";
 import NewToDoForm from "../components/NewToDoForm";
 import { useEffect } from "react";
 import createUrqlClient from "../utils/createUrqlClient";
+import { Alert } from "@material-ui/lab";
 
 const Home: NextPage = () => {
   const [{ data, error }] = useToDosQuery();
@@ -14,15 +15,21 @@ const Home: NextPage = () => {
     console.log(data?.ToDos.filter(({ done }) => done));
   }, [data]);
 
+  if (error) {
+    return (
+      <Box m={2}>
+        <Alert severity="error">Server error</Alert>
+      </Box>
+    );
+  }
+
   return (
     <>
       <NewToDoForm />
       <List>
-        {error ? (
-          <Box px={2}>Server error</Box>
-        ) : (
-          data?.ToDos.map((todo) => <ToDoItem key={todo.id} todo={todo} />)
-        )}
+        {data?.ToDos.map((todo) => (
+          <ToDoItem key={todo.id} todo={todo} />
+        ))}
       </List>
     </>
   );
