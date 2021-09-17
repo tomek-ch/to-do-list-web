@@ -1,4 +1,4 @@
-import { List } from "@material-ui/core";
+import { Box, List } from "@material-ui/core";
 import type { NextPage } from "next";
 import { withUrqlClient } from "next-urql";
 import { useToDosQuery } from "../generated/graphql";
@@ -8,7 +8,7 @@ import { useEffect } from "react";
 import createUrqlClient from "../utils/createUrqlClient";
 
 const Home: NextPage = () => {
-  const [{ data }] = useToDosQuery();
+  const [{ data, error }] = useToDosQuery();
 
   useEffect(() => {
     console.log(data?.ToDos.filter(({ done }) => done));
@@ -18,9 +18,11 @@ const Home: NextPage = () => {
     <>
       <NewToDoForm />
       <List>
-        {data?.ToDos.map((todo) => (
-          <ToDoItem key={todo.id} todo={todo} />
-        ))}
+        {error ? (
+          <Box px={2}>Server error</Box>
+        ) : (
+          data?.ToDos.map((todo) => <ToDoItem key={todo.id} todo={todo} />)
+        )}
       </List>
     </>
   );
